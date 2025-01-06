@@ -1,0 +1,52 @@
+Codigo del Programa
+class TorreDeControl:
+def __init__(self):
+self.cola_aterrizaje = []
+self.cola_despegue = []
+self.pista_libre = True
+def reconocer_avion(self, tipo_avion, avion):
+"""Agrega un avion a la cola correspondiente."""
+i tipo_avion == 'aterrizar':
+self.cola_aterrizaje.append(avion)
+print(f"Reconocido: {avion} esperando para aterrizar.")
+elif tipo_avion == 'despegar':
+self.cola_despegue.append(avion)
+print(f"Reconocido: {avion} esperando para despegar.")
+else:
+print("Tipo de avion no reconocido. Debe ser 'aterrizar' o 'despegar'.")
+def accion(self):
+"""Realiza la accion de aterrizar o despegar el primer avión en espera."""
+if self.cola_aterrizaje:
+avion = self.cola_aterrizaje.pop(0)
+self.pista_libre = False
+print(f"Aterrizando: {avion}...")
+self.pista_libre = True
+return f"{avion} ha aterrizado con exito."
+elif self.cola_despegue:
+avion = self.cola_despegue.pop(0)
+self.pista_libre = False
+print(f"Despegando: {avion}...")
+self.pista_libre = True
+return f"{avion} ha despegado con exito."
+else:
+return "No hay aviones en espera."
+def __str__(self):
+"""Imprime el estado actual de ambas colas."""
+estado_aterrizaje = ", ".join(self.cola_aterrizaje) if self.cola_aterrizaje else "Ninguno"
+estado_despegue = ", ".join(self.cola_despegue) if self.cola_despegue else "Ninguno"
+return (f"Cola de Aterrizaje: {estado_aterrizaje}\n"
+f"Cola de Despegue: {estado_despegue}\n"
+f"Pista libre: {'Si' if self.pista_libre else 'No'}")
+torre = TorreDeControl()
+torre.reconocer_avion('aterrizar', "Avion 1")
+torre.reconocer_avion('despegar', "Avion 2")
+torre.reconocer_avion('aterrizar', "Avion 3")
+torre.reconocer_avion('aterrizar', "Avion 4")
+while True:
+print("\nEstado de la torre de control:")
+print(torre)
+resultado = torre.accion()
+print(resultado)
+if not torre.cola_aterrizaje and not torre.cola_despegue:
+print("No hay mas aviones en espera. Finalizando la simulacion.")
+break
