@@ -1,2 +1,2 @@
 # yordy-carreto-portfolio
-Este repositorio contiene proyectos académicos y personales desarrollados como parte de mi formación en Ingeniería en Sistemas en la Universidad Mariano Gálvez de Guatemala. Incluye ejemplos prácticos de programación en Java, C++ y Python, con un enfoque en desarrollo de software y estructuras de datos.
+Este portafolio muestra mi progreso como estudiante de Ingeniería en Sistemas en la Universidad Mariano Gálvez, destacando proyectos académicos y personales en desarrollo de software, estructuras de datos y programación en Python, Java y C++
