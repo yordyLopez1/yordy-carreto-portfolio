@@ -1,0 +1,82 @@
+# Función para leer el fichero y devolver los registros ordenados
+def leer_fichero():
+    alumnos = [
+        {"apellidos": "Anido Bonet", "nombre": "David", "asistencia": 90, "parcial1": 5.5, "parcial2": 2.75,
+         "ordinario1": None, "ordinario2": 5, "practicas": None, "ordinariopracticas": None},
+        {"apellidos": "Bueno Cerdeira", "nombre": "Patricia", "asistencia": 95, "parcial1": 9.5, "parcial2": 9,
+         "ordinario1": None, "ordinario2": 6.25, "practicas": None, "ordinariopracticas": None},
+        {"apellidos": "Casariego García", "nombre": "Raúl", "asistencia": 98, "parcial1": 4.25, "parcial2": 5.75,
+         "ordinario1": None, "ordinario2": 4, "practicas": 5, "ordinariopracticas": None},
+        {"apellidos": "Curbelo Sánchez", "nombre": "Jorge", "asistencia": 75, "parcial1": 6.75, "parcial2": 4.25,
+         "ordinario1": None, "ordinario2": 6.5, "practicas": None, "ordinariopracticas": None},
+        {"apellidos": "Díaz Souto", "nombre": "Sofía", "asistencia": 82, "parcial1": 7, "parcial2": 6.5,
+         "ordinario1": None, "ordinario2": 9, "practicas": None, "ordinariopracticas": None},
+        # Agregar los demás alumnos aquí
+    ]
+
+    # Ordenar la lista por apellidos
+    alumnos.sort(key=lambda x: x["apellidos"])
+
+    return alumnos
+
+
+# Función para calcular la nota final del curso
+def calcular_nota_final(alumnos):
+    for alumno in alumnos:
+        parcial1 = alumno.get("parcial1", 0)
+        parcial2 = alumno.get("parcial2", 0)
+        practicas = alumno.get("practicas", alumno.get("ordinario2", 0))
+
+        # Calculamos la nota final: 30% del parcial1, 30% del parcial2 y 40% de las prácticas
+        if practicas is not None:
+            nota_final = (parcial1 * 0.30) + (parcial2 * 0.30) + (practicas * 0.40)
+        else:
+            nota_final = (parcial1 * 0.30) + (parcial2 * 0.30)
+
+        alumno["nota_final"] = nota_final
+
+    return alumnos
+
+
+# Función para clasificar los alumnos en aprobados y suspensos
+def clasificar_alumnos(alumnos):
+    aprobados = []
+    suspensos = []
+
+    for alumno in alumnos:
+        asistencia = alumno["asistencia"]
+        parcial1 = alumno.get("parcial1", 0)
+        parcial2 = alumno.get("parcial2", 0)
+        practicas = alumno.get("practicas", alumno.get("ordinario2", 0))
+        nota_final = alumno["nota_final"]
+
+        # Para aprobar: asistencia >= 75%, parciales >= 4, practicas >= 4, nota_final >= 5
+        if (asistencia >= 75 and parcial1 >= 4 and parcial2 >= 4 and
+                practicas is not None and practicas >= 4 and nota_final >= 5):
+            aprobados.append(alumno)
+        else:
+            suspensos.append(alumno)
+
+    return aprobados, suspensos
+
+
+# Ejecución del programa principal
+if __name__ == "__main__":
+    # Leer fichero de calificaciones
+    alumnos = leer_fichero()
+
+    # Calcular las notas finales
+    alumnos_con_notas = calcular_nota_final(alumnos)
+
+    # Clasificar alumnos en aprobados y suspensos
+    aprobados, suspensos = clasificar_alumnos(alumnos_con_notas)
+
+    # Mostrar los resultados
+    print("Alumnos aprobados:")
+    for alumno in aprobados:
+        print(f"{alumno['apellidos']} {alumno['nombre']}: Nota final = {alumno['nota_final']:.2f}")
+
+    print("\nAlumnos suspensos:")
+    for alumno in suspensos:
+        print(f"{alumno['apellidos']} {alumno['nombre']}: Nota final = {alumno['nota_final']:.2f}")
+
