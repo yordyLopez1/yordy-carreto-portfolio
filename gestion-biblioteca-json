@@ -1,0 +1,54 @@
+import json
+class Libro:
+def __init__(self, titulo, autor, año):
+self.titulo = titulo
+self.autor = autor
+self.año = año
+def to_dict(self):
+return {
+'titulo': self.titulo,
+'autor': self.autor,
+'año': self.año
+}
+def guardar_libros(libros, archivo_json):
+with open(archivo_json, 'w') as archivo:
+json.dump([libro.to_dict() for libro in libros], archivo, indent=4)
+def cargar_libros(archivo_json):
+try:
+with open(archivo_json, 'r') as archivo:
+libros_json = json.load(archivo)
+return [Libro(libro['titulo'], libro['autor'], libro['año']) for libro in libros_json]
+except FileNotFoundError:
+print(f"El archivo {archivo_json} no existe.")
+return []
+
+def mostrar_libros(libros):
+if not libros:
+print("No hay libros para mostrar.")
+else:
+for libro in libros:
+print(f"Título: {libro.titulo}, Autor: {libro.autor}, Año: {libro.año}")
+def main():
+archivo_json = "libros.json"
+libros = cargar_libros(archivo_json)
+while True:
+print("\n1. Añadir libro")
+print("2. Mostrar libros")
+print("3. Guardar y salir")
+opcion = input("Selecciona una opción: ")
+if opcion == '1':
+titulo = input("Título del libro: ")
+autor = input("Autor del libro: ")
+año = input("Año de publicación: ")
+libro = Libro(titulo, autor, año)
+libros.append(libro)
+elif opcion == '2':
+mostrar_libros(libros)
+elif opcion == '3':
+guardar_libros(libros, archivo_json)
+print("Libros guardados exitosamente.")
+break
+else:
+print("Opción no válida. Inténtalo de nuevo.")
+if __name__ == "__main__":
+main()
